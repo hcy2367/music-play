@@ -94,7 +94,7 @@
         var musicFile = ['buzailianxi.mp3', 'haikuotiankong.mp3', 'huawuxue.mp3', 'paomo.mp3', 'untilyou.mp3', 'wulai.mp3'];
         var music = localStorage.getItem('filename') || 'music/' + musicFile[Math.floor(Math.random() * musicFile.length)];
         AUDIOITEM.autoplay = localStorage.getItem('autoplay') ? true : false;
-        AUDIOITEM.currentTime = localStorage.getItem('currentTime') ? localStorage.getItem('currentTime') : 0;
+        // AUDIOITEM.currentTime = localStorage.getItem('currentTime') ? localStorage.getItem('currentTime') : 0;
         AUDIOITEM.setAttribute('src', music);
         AUDIOITEM.volume = 0.5;
 
