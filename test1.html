@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内容页1</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        .page {
+            text-align: center;
+            padding: 1px;
+        }
+        .page p {
+            /*换行*/
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        .link-item {
+            display: block;
+            margin: 10px auto;
+            text-decoration: none;
+            background: #5cb85c;
+            color: #fff;
+            padding: 6px 15px;
+            width: 100px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <h1>hello test1</h1>
+        <a href="test3.html" class="link-item">goto test3</a>
+        <p>ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+        <p>1111111111111111</p>
+    </div>
+
+    <script type="text/javascript">
+        // console.log(window.top.test); // 获取父窗口的方法和变量
+
+        // 在iframe中获取父窗口的元素：window.parent.document，然后重新动态设置高度，其中window.top === window.parent
+        var iframe1 = window.parent.document.getElementById('iframe1');
+        window.onload = function() {
+            var clientHeight = document.body.clientHeight,
+                scrollHeight = document.body.scrollHeight;
+                actualHeight = Math.max(clientHeight, scrollHeight);
+            iframe1.height = clientHeight + 70;
+            console.log('test1');
+        };
+
+
+
+        // // history api 管理
+        // var parentPageUrl = iframe1.getAttribute('src');
+        // var newTitle = document.title;
+        // console.log(parentPageUrl, newTitle);
+        // window.history.replaceState(null, document.title, parentPageUrl); // 当前页面是iframe子页面，注意父页面要替换url
+        // if (window.history.pushState) {
+        //     var state = {
+        //         url: parentPageUrl,
+        //         title: newTitle
+        //     };
+        //     window.history.pushState(state, newTitle, parentPageUrl);
+        // }
+
+
+        // // 监听浏览器回退事件
+        // window.addEventListener('popstate', function(event){
+        //     var state = event.state;
+        //     console.log(history.state);
+        //     if (state) {
+        //         console.log("location: " + document.location + ", state: " + JSON.stringify(state));
+        //         document.title = state.title;
+        //     } else {
+        //         // 回到最开始的页面链接
+        //     }
+        // }, false);
+    </script>
+</body>
+</html>
+

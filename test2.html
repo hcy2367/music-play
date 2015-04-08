@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐播放器</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        .container {
+            padding: 10px;
+            overflow: hidden;
+            background: #666;
+            color: #fff;
+        }
+        #progressbox {
+            width: 100%;
+            border: 1px solid #eee;
+            height: 5px;
+            border-radius: 4px;
+        }
+        #progress {
+            width: 0px;
+            height: 5px;
+            background: #fff;
+        }
+        .control {
+            padding-top: 10px;
+            float: left;
+        }
+        .control span {
+            display: inline-block;
+            width: 30px;
+            height: 20px;
+            line-height: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .time {
+            float: right;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        #nowtime {
+            display: inline-block;
+            margin-right: 2px;
+        }
+        #totaltime {
+            display: inline-block;
+            margin-left: 2px;
+        }
+        .title {
+            float: left;
+            margin: 12px 0 0 10px;
+            font-size: 12px;
+        }
+        .page {
+            width: 50%;
+            text-align: center;
+            margin-top: 40px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <audio id="audio" preload="preload" src="" style="width:0;heigth:0;display:none;"></audio>
+
+        <div id="progressbox">
+            <div id="progress"></div>
+        </div>
+
+        <div class="control">
+            <span id="previous">&lt;&lt;</span>
+            <span id="pause">||</span>
+            <span id="next">&gt;&gt;</span>
+        </div>
+
+        <div class="title">
+
+        </div>
+
+        <div class="time">
+            <span id="nowtime"></span>/<span id="totaltime"></span>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // var AUDIOITEM = document.getElementById("audio");
+        var AUDIOITEM = new Audio();
+        var musicFile = ['buzailianxi.mp3', 'haikuotiankong.mp3', 'huawuxue.mp3', 'paomo.mp3', 'untilyou.mp3', 'wulai.mp3'];
+        var music = localStorage.getItem('filename') || 'music/' + musicFile[Math.floor(Math.random() * musicFile.length)];
+        AUDIOITEM.autoplay = localStorage.getItem('autoplay') ? true : false;
+        AUDIOITEM.currentTime = localStorage.getItem('currentTime') ? localStorage.getItem('currentTime') : 0;
+        AUDIOITEM.setAttribute('src', music);
+        AUDIOITEM.volume = 0.5;
+
+        var title = music.slice(music.indexOf('/') + 1, music.indexOf('.'));
+        document.querySelector('.container .title').innerText = title;
+
+        // console.log(AUDIOITEM.volume); // 音量0-1
+        // console.log(AUDIOITEM.muted); // 是否静音
+        // console.log(AUDIOITEM.autoplay);
+        // console.log(AUDIOITEM.currentTime);
+        // console.log(AUDIOITEM.autobuffer); // 媒体文件播放前是否进行缓冲加载，如果设置了autoplay，则忽略此特性
+        // console.log(AUDIOITEM.controls);
+        // console.log(AUDIOITEM.loop);
+
+        // 错误处理
+        AUDIOITEM.addEventListener('error', function() {
+            console.log(AUDIOITEM.error.code); // 1.用户终止 2.网络错误 3.解码错误 4.URL无效
+        }, false);
+
+        // 缓冲至可播放时开始播放音乐
+        AUDIOITEM.addEventListener("canplay", function() {
+            // console.log(AUDIOITEM.currentSrc); // 以字符串形式返回正在播放或已加载的文件
+
+            var allTime = Math.ceil(AUDIOITEM.duration); // 计算总时间，单位为s
+            var secs = allTime % 60; // 计算秒钟
+            secs = secs.toString().length < 2 ? '0' + secs : secs; // 一位数时前面补0
+            var mins = (allTime - secs) / 60; // 计算分钟 等价于 (allTime / 60) % 60
+            mins = mins.toString().length < 2 ? '0' + mins : mins; // 一位数时前面补0
+            document.getElementById("totaltime").innerHTML = mins + ':' + secs;
+            document.getElementById("nowtime").innerHTML = "0:00";
+
+            AUDIOITEM.play(); // 开始播放
+        }, false);
+
+        // 播放中(播放时间发生改变)事件监听
+        AUDIOITEM.addEventListener("timeupdate", function() {
+            var nowTime = AUDIOITEM.currentTime; // 当前播放时间，单位为s
+            var totalTime = AUDIOITEM.duration;
+            var pWidth = (nowTime / totalTime).toFixed(4) * 100; // 计算进度条百分比
+            var nSecs = Math.ceil(nowTime) % 60; // Math.ceil向上取整，被60整除时为60的倍数
+            var nMins = Math.ceil(nowTime) - nSecs <= 0 ? '0' : (Math.ceil(nowTime) - nSecs) / 60;
+            nMins = nMins.toString().length < 2 ? '0' + nMins : nMins;
+            nSecs = nSecs.toString().length < 2 ? '0' + nSecs : nSecs;
+            // console.log(nMins, nSecs);
+            document.getElementById("nowtime").innerHTML= nMins + ":" + nSecs;
+            document.getElementById("progress").style.width = pWidth + "%";
+        }, false);
+
+        var pause = document.getElementById('pause');
+        // 控制音乐暂停和播放
+        pause.addEventListener('click', function() {
+            if (AUDIOITEM.paused == false) {
+                AUDIOITEM.pause();
+                pause.innerHTML = "&gt;";
+            } else {
+                AUDIOITEM.play();
+                pause.innerHTML = "||";
+            }
+        }, false);
+
+
+        var next = document.getElementById('next');
+        // 下一首
+        next.addEventListener('click', function(e) {
+            e.preventDefault();
+            music = 'music/' + musicFile[Math.floor(Math.random() * musicFile.length)];
+            AUDIOITEM.setAttribute('src', music);
+            var title = music.slice(music.indexOf('/') + 1, music.indexOf('.'));
+            document.querySelector('.container .title').innerText = title;
+            AUDIOITEM.play();
+        }, false);
+
+        var previous = document.getElementById('previous');
+        // 上一首
+        previous.addEventListener('click', function(e) {
+            e.preventDefault();
+            music = 'music/' + musicFile[Math.floor(Math.random() * musicFile.length)];
+            AUDIOITEM.setAttribute('src', music);
+            var title = music.slice(music.indexOf('/') + 1, music.indexOf('.'));
+            document.querySelector('.container .title').innerText = title;
+            AUDIOITEM.play();
+        }, false);
+
+        // 播放结束切换歌曲
+        AUDIOITEM.addEventListener('ended', function() {
+            console.log(AUDIOITEM.ended); // 是否播放结束
+            music = 'music/' + musicFile[Math.floor(Math.random() * musicFile.length)];
+            AUDIOITEM.setAttribute('src', music);
+            var title = music.slice(music.indexOf('/') + 1, music.indexOf('.'));
+            document.querySelector('.container .title').innerText = title;
+            AUDIOITEM.play();
+        }, false);
+
+        // 点击超链接跳转前存储当前音乐播放进度
+        var url = window.location.href;
+        var linkItem = document.querySelector('.link-item');
+        /*linkItem.addEventListener('click', function(e) {
+            e.preventDefault();
+            var href = e.target.href;
+            if (href !== url) {
+                localStorage.removeItem('filename');
+                localStorage.removeItem('currentTime');
+                localStorage.removeItem('autoplay');
+                localStorage.setItem('autoplay', true);
+                localStorage.setItem('filename', AUDIOITEM.currentSrc);
+                localStorage.setItem('currentTime', AUDIOITEM.currentTime);
+            }
+            window.location.href = href;
+        }, false);*/
+
+    </script>
+</body>
+</html>
+
